@@ -1,0 +1,76 @@
+﻿
+@{
+    Layout = null;
+}
+
+<style>
+    .jumboheader {
+        font-size: 72px;
+        color: #0080FF;
+        font-weight: 100;
+    }
+
+    .bolder-text {
+        color:black;
+        font-weight: bold;
+    }
+
+    ul li {
+        color: gray;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">        
+        <div class="col-md-10 col-md-offset-1"> 
+            <div class="row text-center">
+                <span class="jumboheader">.devmonster</span>
+            </div>
+            <hr />
+            <div class="row text-center">
+                <ul class="list-inline">
+                    <li class="bolder-text">.NET</li>
+                    <li>C#</li>
+                    <li>VB</li>
+                    <li>SharePoint</li>
+                    <li class="bolder-text">Web</li>
+                    <li>MVC</li>
+                    <li>jQuery</li>
+                    <li>CSS</li>
+                    <li>Bootstrap</li>
+                    <li>AngularJS</li>
+                    <li>Polymer</li>
+                    <li>PHP</li>
+                    <li class="bolder-text">Mobile</li>
+                    <li>Windows Phone</li>
+                    <li class="bolder-text">SQL</li>
+                </ul>                
+            </div>            
+            <hr />
+            <div class="row text-center">
+                <ul class="list-inline">
+                    <li><a target="_blank" href="http://www.facebook.com/devmonster">Facebook</a></li>
+                    <li><a target="_blank" href="http://www.twitter.com/devmonster">Twitter</a></li>
+                    <li><a target="_blank" href="http://about.me/devmonster">About.Me</a></li>
+                    <li><a target="_blank" href="http://linkedin.com/pub/mark-angelo-miano/44/438/754">LinkedIn</a></li>
+                    <li><a target="_blank" href="http://github.com/devmonster">Github</a></li>
+                    <li><a target="_blank" href="http://instagram.com/devmonster86">Instagram</a></li>
+                    <li><a target="_blank" href="http://plus.google.com/+RanAngeloMiano/">Google Plus</a></li>
+                    <li><a target="_blank" href="http://klout.com/devmonster">Klout</a></li>
+                    <li><a target="_blank" href="http://last.fm/user/devmonster">last.fm</a></li>
+                    <li><a target="_blank" href="http://ask.fm/devmonster86">ask.fm</a></li>                                        
+                </ul>
+            </div>
+        </div>        
+    </div>    
+</div>
+<div style="height: 400px;"></div>
+<script>
+    $(function () {
+        var $x = $("div:gt(6)");        
+        $x.each(function () {
+            $(this).html("").attr("style","");
+        });
+        
+    });
+</script>

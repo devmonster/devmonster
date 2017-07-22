@@ -1,0 +1,37 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Greetings as a Service</title>
+    <meta property="og:title" content="Greetings as a Service" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="Greetings as a Service is a modern, RESTful way of greeting your friends or loved ones" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <style>
+        .hero-message {
+            font-size: 60px;
+        }
+
+    
+    </style>
+</head>
+<body style="margin-top:40px;">
+    <div class="container">
+        <div class="well well-lg">
+            @RenderBody()
+        </div>
+        <div style="font-size:14px; color: gray;">      
+            <a href="/gaas/operations"><span style="font-weight:bold;">/gaas/operations</span></a> for full list of operations<br />
+            Greetings as a Service (c) 2016 by Ran Angelo 
+        </div>
+    </div>
+
+</body>
+</html>

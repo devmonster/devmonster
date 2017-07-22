@@ -1,0 +1,120 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Greetings as a Service - Operations </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+    <style>
+        table {
+            width: 100%;
+            margin-bottom: 20px;
+            max-width: 100%;
+            background-color: transparent;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        tr {
+            display: table-row;
+            vertical-align: inherit;
+            border-color: inherit;
+        }
+
+        table thead {
+            font-weight: bold;
+        }
+
+        .table th, .table td {
+            padding: 8px;
+            line-height: 20px;
+            text-align: left;
+            vertical-align: top;
+            border-top: 1px solid #dddddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="well well-lg">
+            <h1> Greetings as a Service (GAAS)</h1>
+        </div>
+
+        <h2>
+            Introduction
+        </h2>
+        <div>
+            Greetings as a Service (GAAS) is a modern, RESTful way of greeting your friends or loved ones
+        </div>
+        <h2>Operations</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Path</td>
+                    <td>Description</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>/gaas/holidays/{from}</td>
+                    <td>Will return content of the form 'Happy Holidays! - {from}'</td>
+                </tr>
+                <tr>
+                    <td>/gaas/holidays/{to}/{from}</td>
+                    <td>Will return content of the form 'Happy Holidays {to}! - {from}'</td>
+                </tr>
+                <tr>
+                    <td>/gaas/newyear/{from}</td>
+                    <td>Will return content of the form 'Happy New Year! - {from}'</td>
+                </tr>
+                <tr>
+                    <td>/gaas/newyear/{to}/{from}</td>
+                    <td>Will return content of the form 'Happy New Year {to}! - {from}'</td>
+                </tr>
+                <tr>
+                    <td>/gaas/operations</td>
+                    <td>Will return the list of available operations/greetings</td>
+                </tr>
+                <tr>
+                    <td>/gaas/season/{from}</td>
+                    <td>Will return content of the form 'Seasons Greetings! - {from}'</td>
+                </tr>
+                <tr>
+                    <td>/gaas/season/{to}/{from}</td>
+                    <td>Will return content of the form 'Seasons Greetings {to}! - {from}'</td>
+                </tr>
+                <tr>
+                    <td>/gaas/xmas/{from}</td>
+                    <td>Will return content of the form 'Merry Christmas! - {from}'</td>
+                </tr>
+                <tr>
+                    <td>/gaas/xmas/{to}/{from}</td>
+                    <td>Will return content of the form 'Merry Christmas {to}! - {from}'</td>
+                </tr>
+                <tr>
+                    <td>/gaas/yearend/{from}</td>
+                    <td>Will return content of the form 'Merry Christmas and a Happy New Year! - {from}'</td>
+                </tr>
+                <tr>
+                    <td>/gaas/yearend/{to}/{from}</td>
+                    <td>Will return content of the form 'Merry Christmas and a Happy New Year {to}! - {from}'</td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>
+            Version
+        </h2>
+        0.0.3
+        <h2>
+            About
+        </h2>
+        Made by Ran Angelo (c) 2016
+    </div>
+</body>
+</html>

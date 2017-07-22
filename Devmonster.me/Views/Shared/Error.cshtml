@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>404 Page Not Found - Devmonster.me</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+    <style>
+        body {
+            background-color: #0c00b5;
+            font-family: Consolas, Arial, sans-serif;
+            color: white;
+        }
+
+        .appname {
+            background-color: gray;
+            padding: 3px 10px 3px 10px;
+        }
+
+        a {
+            color: white;
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: red;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="container">
+        <div style="padding-top: 20%;" class="text-center"><span class="appname">Devmonster.net</span></div>
+        <div style="padding-top: 40px;">
+            *** STOP: 0x0000000c (0x00000000, 0xEB71092F, 0x0000008, 0xC00000000)<br />
+             BAD_WEB_ADDRESS_ROUTING - Routing failed at INTERNET.SYS::URL at Address <span id="url"></span>
+            <br />
+            <br />
+            The page you were looking for is NULL, or might have been moved. Your computer is fine. Make sure you have typed the correct URL to avoid seeing this error
+            <br /><br />
+            <div class="text-center"><a href="/">Go back to Home</a></div>
+        </div>
+    </div>
+    <script>
+        function gup(name, url) {
+            if (!url) url = location.href;
+            name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+            var regexS = "[\\?&]" + name + "=([^&#]*)";
+            var regex = new RegExp(regexS);
+            var results = regex.exec(url);
+            return results == null ? null : results[1];
+        }
+
+        document.getElementById('url').innerHTML = gup("aspxerrorpath");
+    </script>
+</body>
+</html>

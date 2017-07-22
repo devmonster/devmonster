@@ -1,0 +1,13 @@
+﻿@model Devmonster.me.Models.ResponseData
+
+@{
+    Layout = "~/Views/Shared/_GreetLayoutNewYear.cshtml";
+}
+<div class="pyro">
+    <div class="before"></div>
+    <div class="after"></div>
+</div>
+<div class="hero-message">
+    <div class="text-center cycleColor">@Model.Message</div>
+</div>
+<div class="text-center">- @Model.From</div>

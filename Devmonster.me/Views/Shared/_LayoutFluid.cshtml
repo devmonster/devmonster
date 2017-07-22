@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Keywords" content="Ran Angelo Miano, Devmonster, User Interface Design, User Experience, Web Developer, .NET, C#, VB, SharePoint, MVC, Android, HTML5, CSS3, Philippines " />
+    <meta name="Description" content="Ran Angelo Miano, Devmonster. Web Developer & User Experience Designer, My Skills includes, HTML5, CSS3, MVC, SharePoint, C#, VB, PHP, Web Integration, Web API" />
+    <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1, user-scalable = no">
+    <meta name="robots" content="index,follow">
+    
+    <!-- Open Graph data -->
+    <meta property="og:title" content="Ran Angelo Miano | Web Developer, User Experience Designer | Devmonster" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="http://devmonster.me/" />    
+    <meta property="og:description" content="Web Developer & User Experience Designer, HTML5, CSS3, MVC, SharePoint, C#, VB, PHP, Web Integration, Web API" />
+    <meta property="fb:admins" content="1316843525" />
+
+    <title>Ran Angelo Miano | Web Developer, User Experience Designer | Devmonster</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,500' rel='stylesheet' type='text/css'>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    @RenderSection("scripts", required: false)
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-52511278-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+</head>
+<body>
+    <div class="like-box">
+        <iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fdevmonster.me&amp;width=100&amp;layout=button_count&amp;action=like&amp;show_faces=true&amp;share=true&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:21px;" allowtransparency="true"></iframe>
+    </div>
+    <div class="container-fluid">
+        @RenderBody()
+    </div>
+</body>
+</html>

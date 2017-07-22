@@ -1,0 +1,26 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Redirecting to new site</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+    <script>
+        $(function () {
+            setTimeout(function () { window.location = "http://devmonster.azurewebsites.net/cn";}, 5000);
+        });
+    </script>
+</head>
+<body>
+    <div style="padding-top: 200px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size:25px; padding-left: 20px; color:#444;">
+        We've moved to <a href="http://devmonster.azurewebsites.net/cn">a different hosting site</a> but it looks like the DNS hasn't updated yet.<br />
+        http://devmonster.me/cn is still correct (so please use that) but you are being directed to the old hosting site. <br /><Br />Please wait while we redirect you...
+    </div>
+</body>
+</html>

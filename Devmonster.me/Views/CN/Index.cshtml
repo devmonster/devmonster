@@ -1,0 +1,881 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta name="Keywords" content="Club Nintendo, Devmonster, Devmonster.me, Nintendo, Rewards" />
+    <meta name="Description" content="Filter Club Nintendo rewards to help you decide which ones to get" />
+    <meta name="robots" content="index,follow" />
+
+    <meta property="og:title" content="Club Nintendo Filter by Devmonster.me" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="http://devmonster.me/cn" />
+    <meta property="og:description" content="Filter Club Nintendo rewards to help you decide which ones to get" />
+    <meta property="fb:admins" content="1316843525" />
+
+    <link rel="shortcut icon" href="/Content/favicon.ico" type="image/vnd.microsoft.icon">
+
+    <title>Club Nintendo Filter by Devmonster.me</title>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+    <script>
+        var ctotal = 0;
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-52511278-1', 'auto');
+        ga('send', 'pageview');
+
+        function refilter() {
+            $(".game-item").hide();
+            var coins = $("#my_coins").val();
+            var showmarked = 0;
+
+            if (coins == 0) coins = 10000;
+            if ($("#Marked").prop('checked')) showmarked = 1;
+            
+
+
+            if ($("#DS").prop('checked')) {
+                $("li[data-system='3ds']").filter(function () {
+                    if (showmarked == 1)
+                        return $(this).attr("data-cost") <= parseInt(coins) && $(this).attr("data-state") == 'marked';
+                    else
+                        return $(this).attr("data-cost") <= parseInt(coins);
+                }).show();
+            }
+            if ($("#Wii").prop('checked')) {
+                $("li[data-system='wii']").filter(function () {
+                    if (showmarked == 1)
+                        return $(this).attr("data-cost") <= parseInt(coins) && $(this).attr("data-state") == 'marked';
+                    else
+                        return $(this).attr("data-cost") <= parseInt(coins);
+                }).show();
+            }
+            if ($("#WiiU").prop('checked')) {
+                $("li[data-system='wiiu']").filter(function () {
+                    if (showmarked == 1)
+                        return $(this).attr("data-cost") <= parseInt(coins) && $(this).attr("data-state") == 'marked';
+                    else
+                        return $(this).attr("data-cost") <= parseInt(coins);
+                }).show();
+            }
+
+            if ($("#Physical").prop('checked')) {
+                $("li[data-system='physical']").filter(function () {
+                    if (showmarked == 1)
+                        return $(this).attr("data-cost") <= parseInt(coins) && $(this).attr("data-state") == 'marked';
+                    else
+                        return $(this).attr("data-cost") <= parseInt(coins);
+                }).show();
+            }
+        }
+
+        $(function () {
+            $("#DS, #Wii, #WiiU, #Physical, #Marked").change(function () { console.log("click"); refilter(); });
+            $("#my_coins").keyup(function () { console.log("type"); refilter(); });
+
+            $(games).each(function (i) {
+                var es = "";
+                if (this.eshop != null) es = '<div style="padding-top:30px;"><div style="float:left;">'
+                    + '<a href="' + this.eshoplink + '" target="_blank"><img src="/Content/Images/CN/eshop.png" height="20px"/></a></div><div style="float:left;padding-top: 0px;font-size: 18px;padding-left: 20px;">' + this.eshop + '</div></div>';
+
+                var ap = '<li class="row game-item" data-cost="' + this.price + '" data-system="'
+                    + this.system + '"><div class="col-xs-4 col-sm-4 col-md-3 col-lg-3 col-xl-3"><a target="_blank" href="' + this.cnlink + '">'
+                    + '<img src="' + this.url + '" class="img-responsive game-banner" /></a></div>'
+                    + '<div class="col-xs-4 col-sm-4 col-md-5 col-lg-4 col-xl-4"><span class="' + this.selector + '"></span>'
+                    + '<span class="game-coin"><img src="/Content/Images/CN/coin.png" /><span >' + this.price + ' coins</span></span>'
+                    + '<div class="game-title">' + this.name + '</div>'
+                    + es
+                    + '<div style="clear:both; float:left; padding-top: 5px; cursor: pointer;" class="star-mark" data-state="off" data-id="' + i + '" data-price="'+ this.price +'">'
+                    + '<img src="/Content/Images/CN/star-off.png" alt="Mark/Umark this item"> <span style="font-size: 10px; color: gray;">Mark</span></div>'
+                    + '</div></li>';
+                $(".game-list").append(ap);
+
+                $(".marked-list-parent").append('<li id="ml-id' + i + '" style="clear:both; display:none;"><div class="marked-list"><div class="mark-game-price">' + this.price + '</div>'
+                    + '<div class="mark-game-name">' + this.name + '</div></div></li>');
+            });
+
+            $(".star-mark").click(function () {
+
+                if ($(this).attr("data-state") == "off") {
+                    // add
+                    $(this).find("img").attr("src", "/Content/Images/CN/star.png");
+                    $(this).attr("data-state", "on");
+                    $(this).parent().parent().css('background-color', '#FFFFD6').attr("data-state", "marked");
+
+                    var tid = $(this).attr("data-id");
+                    var price = parseInt($(this).attr("data-price"));
+                    ctotal += price;
+                    $("#ml-id" + tid).show();
+                }
+                else {
+                    // remove
+                    $(this).find("img").attr("src", "/Content/Images/CN/star-off.png");
+                    $(this).attr("data-state", "off");
+                    $(this).parent().parent().css('background-color', 'white').attr("data-state", "unmarked");
+                    var tid = $(this).attr("data-id");
+                    $("#ml-id" + tid).hide();
+                    var price = parseInt($(this).attr("data-price"));
+                    ctotal -= price;
+                }
+
+                $(".total-price").html(ctotal);
+                refilter();
+            });
+
+            //$("div:gt(718)").each(function () { $(this).attr("style", "display: none;"); });
+            //console.log($("div").length);
+        });
+
+        var games = [
+            {
+                name: "Grill-Off with Ultra Hand!", price: "80", url: "/Content/Images/cn/grill-off_main.jpg", system: "wii", selector: "Wii",
+                cnlink: "https://club.nintendo.com/rewards-details/a/13002.do"
+            },
+            {
+                name: "Mario &amp Luigi Greeting Cards", price: "300", url: "/Content/Images/cn/marioluigi_greeting_card_set_main.jpg", system: "physical", selector: "Physical",
+                cnlink: "https://club.nintendo.com/rewards-details/a/17002.do"
+            },
+            {
+                name: "Nintendo Greeting Cards", price: "300", url: "/Content/Images/cn/nintendogs_greeting_cards_main.jpg", system: "physical", selector: "Physical",
+                cnlink: "https://club.nintendo.com/rewards-details/a/12002.do"
+            },
+            {
+                name: "Nintendo 3DS Game Card Case 2015 Edition", price: "400", url: "/Content/Images/cn/card case.jpg", system: "physical", selector: "Physical",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45250.do"
+            },
+            {
+                name: "2016 Desktop Calendar", price: "400", url: "/Content/Images/cn/calendar.jpg", system: "physical", selector: "Physical",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45248.do"
+            },
+            {
+                name: "Animal Crossing Mini Playing Cards", price: "600", url: "/Content/Images/cn/accards.jpg", system: "physical", selector: "Physical",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45254.do"
+            },
+            {
+                name: "3DS XL Pouch: The Legend of Zelda", price: "600", url: "/Content/Images/cn/pouch.jpg", system: "physical", selector: "Physical",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45252.do"
+            },
+            {
+                name: "Super Smash Bros. 3 - Poster Set v2", price: "700", url: "/Content/Images/cn/poster.jpg", system: "physical", selector: "Physical",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45263.do"
+            },
+            {
+                name: "Retro Mario T-Shirt", price: "700", url: "/Content/Images/cn/shirt.jpg", system: "physical", selector: "Physical",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45258.do"
+            },
+            {
+                name: "Limited Edition 2013 Platinum Poster Set", price: "700", url: "/Content/Images/cn/platinumposter.jpg", system: "physical", selector: "Physical",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45256.do"
+            },
+            {
+                name: "Super Smash Bros. 3-Poster set", price: "700", url: "/Content/Images/cn/smashposter.jpg", system: "physical", selector: "Physical",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45108.do"
+            },
+            {
+                name: "Fierce Deity Link Jigsaw Puzzle", price: "800", url: "/Content/Images/cn/puzzle.jpg", system: "physical", selector: "Physical",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45267.do"
+            },
+            {
+                name: "The Legend of Zelda: Majora's Mask 3D Messenger Bag", price: "800", url: "/Content/Images/cn/bag.jpg", system: "physical", selector: "Physical",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45265.do"
+            },
+            {
+                name: "Yoshi's Island: Super Mario Advance 3", price: "200", url: "/Content/Images/Cn/yoshisiland.png", system: "wiiu", selector: "WiiU",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45236.do", eshop: "$7.99", eshoplink: "http://www.nintendo.com/games/detail/t6DYblQKoKDxnqpSCh5prSVDAH-OVDXN"
+            },
+            {
+                name: "Super Punch-Out", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/superpunchout.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45234.do", eshop: "$7.99", eshoplink: "http://www.nintendo.com/games/detail/pB26hXRGtGXy6kO5_K_yFUUm0OLKvanY"
+
+            },
+            {
+                name: "Golden Sun", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/goldensun.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45232.do", eshop: "$7.99", eshoplink: "http://www.nintendo.com/games/detail/2N5o4YEoPlo0Oul7Be1sm6jQ6dizj4_n"
+            },
+            {
+                name: "F-Zero", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/f-zero.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/44506.do", eshop: "$7.99", eshoplink: "http://www.nintendo.com/games/detail/iftL2T9_tZwGrviks-n1-RfsfvVsZUyk"
+            },
+            {
+                name: "F-Zero: Maximum Velocity", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/fzerowiiu.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45229.do", eshop: "$6.99", eshoplink: "http://www.nintendo.com/games/detail/s6v7tl2pFsWFV39x2XW9QmOOxZwJfWBY"
+            },
+            {
+                name: "Ice Climber", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/iceclimber.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45227.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/CLRTZm3VDK-EAtXMSUhdYi1wZBQRYqJ9"
+            },
+            {
+                name: "Volleyball", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/volleyball.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45225.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/5jRtiuZcCQZ-kHBm9oJ_fNl-EckzBIeb"
+            },
+            {
+                name: "Tennis", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/tennis.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45223.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/TdIMMXukgaYF1FVxO2aSJVPKWZ-AGnTa"
+            },
+            {
+                name: "Pinball", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/pinball.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45221.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/gMPhXsN2Ko1VQUoTKbr68CkvBKesOiif"
+            },
+            {
+                name: "NES Open Tournament Golf", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/nesopen.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45219.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/sYLkEXXLOmYprXho1j_vuwV5dl8LXvJs"
+            },
+            {
+                name: "Ice Hockey", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/icehockey.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45217.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/m0V9WmTkj0Ppfk2YUWhJ-au0kptSuz9U"
+            },
+            {
+                name: "Golf", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/golf.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45215.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/JNbv4KdYNyfo0Y8MJY2l3kZ29Gs8YA-N"
+            },
+            {
+                name: "Clu Clu Land", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/cluclu.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45213.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/dGa8XfPqvfxmfYzDzRhzNiSbQIOYncwF"
+            },
+            {
+                name: "Baseball", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/baseball.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45211.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/VTJGMsjNZHOWnIrc8sF4cuq_ngLxITOr"
+            },
+            {
+                name: "Wario's Woods", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/wario.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45209.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/ngERS_C8URB1aWoSjvJnLdACWPf2gBeO"
+            },
+            {
+                name: "Urban Champion", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/urbanchampion.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45207.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/HpixSn65NKQorJpNT4XsPQ_rd8nfMr_f"
+            },
+            {
+                name: "Dr. Mario", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/drmario.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45205.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/abzfxKTcMQaD_mXnVpDmSdNCbRzBLj0f"
+            },
+            {
+                name: "Donkey Kong 3", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/donkeykong.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45203.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/X92dumPKeQcrhgqB33_mZXbO5DkrVLzr"
+            },
+            {
+                name: "Super Mario Bros.: Lost Levels", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/supermariobros2 (2).png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45201.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/brOSC_O3PT8C7hsdppbnp43lXATHKpWn"
+            },
+            {
+                name: "Super Mario Bros. 3", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/supermariobros3.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45199.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/kS7M2dEEey0WWhQzDyKaRVdZRBBAChJL"
+            },
+            {
+                name: "Super Mario Bros", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/supermariobros.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45197.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/tIgYKl98KyjQA4LsY-XEiL2zu_xzk7JY"
+            },
+            {
+                name: "Yoshi", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/yoshi.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45015.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/800OE-0ki87aVOOzE_R_LmN5Wsir1WZv"
+            },
+            {
+                name: "Balloon Fight", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/balloon_fight.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/43002.do", eshop: "$4.99", eshopink: "http://www.nintendo.com/games/detail/YK-HCCBJOqoPJVPuJaS7VfATnZGk0zVb"
+            },
+            {
+                name: "Kid Icarus", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/kidicaruswiiu.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45137.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/4VEfb1mlzTaUGhsY1yUtSNJqH8JceAdz"
+            },
+            {
+                name: "Zelda II: The Adventure of Link", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/adventuresoflink.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45135.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/cG5yRiBn0KqqiqMdx11pxwRkGp4ew8Eu"
+            },
+            {
+                name: "Metroid", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/metroidwiiu.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45121.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/hOyRxr3W4yhKWayjsq6c38w_B41MeO_j"
+            },
+            {
+                name: "Pilotwings", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/pilotwings.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45113.do", eshop: "$7.99", eshoplink: "http://www.nintendo.com/games/detail/96qUiZND5eUNmeSVC0bCxWoqhzL5hVC3"
+            },
+            {
+                name: "Wrecking Crew", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/wrecking_crew_wiiu.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45102.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/jD5SUoqlW-xWZv-RwmsWZKsZHsCi_Tbg"
+            },
+            {
+                name: "Mario Bros.", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/mario-bros-wiiu.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45094.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/steaDexI7H4v0UEWC20wW3alYYaGW5bz"
+            },
+            {
+                name: "Super Mario Bros. 2", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/super-mario-bros-2-wiiu.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45084.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/Yq01GCFWN-xWmq7Jv9-NFhVrAXMrsdVM"
+            },
+            {
+                name: "Excitebike", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/excitebike_wiiu.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45082.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/F_4PbbyQDZ-JP0gGdcJga0C-qMEujvnI"
+            },
+            {
+                name: "Donkey Kong Jr.", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/donkey_kong_jr.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45048.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/x0aY2bXHOyS-he4nvjXjyvpjnoBxC7Lz"
+            },
+            {
+                name: "Super Metroid", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/supermetroid.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45035.do", eshop: "$7.99", eshoplink: "http://www.nintendo.com/games/detail/AFZxlJ-lH5fU_h4Q79V3dOpdT9k4EU1N"
+            },
+            {
+                name: "Super Mario World", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/super-mario-world-wiiu.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45025.do", eshop: "$7.99", eshoplink: "http://www.nintendo.com/games/detail/6eq5TQqkuX7MT0MnGZSTXocyEQmweSe-"
+            },
+            {
+                name: "Punch-Out!! Featuring Mr. Dream", price: "200", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/punch-out.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45006.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/v3bEQK02zb7GaisjS8G_4mQIw3J2GKMC"
+            },
+            {
+                name: "Earthbound", price: "250", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/earthbound.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45238.do", eshop: "$9.99", eshoplink: "http://www.nintendo.com/games/detail/82s5n1dbV4gstayVNhVYtOneSXTIXACS"
+            },
+            {
+                name: "Dr. Luigi", price: "300", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/drluigi.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45141.do", eshop: "$14.99", eshoplink: "http://www.nintendo.com/games/detail/NO7a2NAzC0SDwAAYEY44x1rNVwWlXIt1"
+            },
+            {
+                name: "NES Remix", price: "300", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/nesremix.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45133.do", eshop: "$14.99", eshoplink: "http://www.nintendo.com/games/detail/yK_K76hIQJ10MUEpc5OTDWS98PuiiKYp"
+            },
+            {
+                name: "The Wonderful 101", price: "600", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/wonderful101.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45244.do", eshop: "$29.99", eshoplink: "http://www.nintendo.com/games/detail/Lkq41miRxDCK0P1kdPdjc7RFM4Z0ARzx"
+            },
+            {
+                name: "Wii Fit U", price: "600", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/wiifitu.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45240.do", eshop: "$29.99", eshoplink: "http://www.nintendo.com/games/detail/YJf62xVsTKBXKlne0uo8rh9lkPdeXmuj"
+            },
+            {
+                name: "Game & Wario", price: "600", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/gameandwario.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45139.do", eshop: "$29.99", eshoplink: "http://www.nintendo.com/games/detail/iKg5eR8WOqF1aGk4hOm6cJSbhwgppTi4"
+            },
+            {
+                name: "Wii Party U", price: "850", system: "wiiu", selector: "WiiU", url: "/Content/Images/Cn/wiiPartyU.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45242.do", eshop: "$39.99", eshoplink: "http://www.nintendo.com/games/detail/Q7d0YU5f2zF_aEy8elBnXI72HE64YeVA"
+            },
+            {
+                name: "Clu Clu Land", price: "200", system: "wii", selector: "Wii", url: "/Content/Images/Cn/clucluland_wii.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45115.do", eshop: "500 points", eshoplink: "http://www.nintendo.com/games/detail/v4hLkujV-v81_kFCDYGoI6hrhm0A74mT"
+            },
+            {
+                name: "Super Mario Bros.: The Lost Levels", price: "200", system: "wii", selector: "Wii", url: "/Content/Images/Cn/supermariobros2.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/43004.do", eshop: "600 points", eshoplink: "http://www.nintendo.com/games/detail/t3-CjLq8CI2H6XSTq10MgYw9eZthD9GJ"
+            },
+            {
+                name: "Zoda's Revenge: StarTropics II", price: "200", system: "wii", selector: "Wii", url: "/Content/Images/Cn/zodas_revenge.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/40502.do", eshop: "500 points", eshoplink: "http://www.nintendo.com/games/detail/EE98Kq9IQruf-ojxdDLhNh9twxrw1mQb"
+            },
+            {
+                name: "NES Play Action Football", price: "200", system: "wii", selector: "Wii", url: "/Content/Images/Cn/nes-play-action-football-wii.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/29506.do", eshop: "500 points", eshoplink: "http://www.nintendo.com/games/detail/mnvalrFHXjf0OXQ8JTWU9tOSo58v74Cn"
+            },
+            {
+                name: "Art Style: CUBELLO", price: "200", system: "wii", selector: "Wii", url: "/Content/Images/Cn/cubello.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/24506.do", eshop: "600 points", eshoplink: "http://www.nintendo.com/games/detail/RiwQdeXXsY5Q88aGghMq654JqM-ljVnd"
+            },
+            {
+                name: "Doc Louis's Punch-Out!!", price: "250", system: "wii", selector: "Wii", url: "/Content/Images/Cn/punchoutwiiu.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45193.do"
+            },
+            {
+                name: "Mario Golf", price: "250", system: "wii", selector: "Wii", url: "/Content/Images/Cn/mariogolfwii.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45027.do", eshop: "1,000 points", eshoplink: "http://www.nintendo.com/games/detail/1E_Pid_oiEWVgowXTzNZ-W9aCh_KP831"
+            },
+            {
+                name: "The Legend of Zelda: A Link to the Past", price: "250", system: "wii", selector: "Wii", url: "/Content/Images/Cn/legend_of_zelda_a_link_to_the_past.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/42004.do"
+            },
+            {
+                name: "Star Fox 64", price: "250", system: "wii", selector: "Wii", url: "/Content/Images/Cn/starfox64-wii.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/37502.do", eshop: "1,000 points", eshoplink: "http://www.nintendo.com/games/detail/D8mJHx13Obly-Le1Pvg4tzvMncaVfRmZ"
+            },
+            {
+                name: "F-Zero X", price: "250", system: "wii", selector: "Wii", url: "/Content/Images/Cn/fzero.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/37004.do", eshop: "1,000 points", eshoplink: "http://www.nintendo.com/games/detail/IFc5EKQmdauyHPlAWLjBMFotvC6AuNSg"
+            },
+            {
+                name: "Super Mario 64", price: "250", system: "wii", selector: "Wii", url: "/Content/Images/Cn/supermario64.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/35506.do", eshop: "1,000 points", eshoplink: "http://www.nintendo.com/games/detail/48czfMMYIp_0_alQYMIOS7sgrvUdDq1O"
+            },
+            {
+                name: "Super Metroid", price: "250", system: "wii", selector: "Wii", url: "/Content/Images/Cn/supermetroid.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/35504.do", eshop: "800 points", eshoplink: "http://www.nintendo.com/games/detail/WUE1-4fPdnQzop6b1XC8yD-2KyiI3LXh"
+            },
+            {
+                name: "Paper Mario", price: "250", system: "wii", selector: "Wii", url: "/Content/Images/Cn/papermario.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/34002.do", eshop: "1,000 points", eshoplink: "http://www.nintendo.com/games/detail/oWnd6EMCVBbdy9b-5rIkJfC64EEGPQTb"
+            },
+            {
+                name: "Mario Kart 64", price: "250", system: "wii", selector: "Wii", url: "/Content/Images/Cn/mariokart64.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/33002.do", eshop: "1,000 points", eshoplink: "http://www.nintendo.com/games/detail/ypYFdZloLpIo5g7mvh9xXj0gLcT7KGSy"
+            },
+            {
+                name: "1080° Snowboarding", price: "250", system: "wii", selector: "Wii", url: "/Content/Images/Cn/1080.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/32502.do", eshop: "1,000 points", eshoplink: "http://www.nintendo.com/games/detail/NgPHA8ze2I1wyIv2uxBIaBflTbwYif84"
+            },
+            {
+                name: "ThruSpace", price: "250", system: "wii", selector: "Wii", url: "/Content/Images/Cn/thruspace.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/32006.do", eshop: "800 points", eshoplink: "http://www.nintendo.com/games/detail/ybXyp-V4wz_d4yH2vtD4-mrlIv_M3IfE"
+            },
+            {
+                name: "Super Punch-Out!!", price: "250", system: "wii", selector: "Wii", url: "/Content/Images/Cn/super-punch-out-wii.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/31506.do", eshop: "800 points", eshoplink: "http://www.nintendo.com/games/detail/mEcfDV-4VjBU0R1b_wVGmmzDMFpdA8nJ"
+            },
+            {
+                name: "Pilotwings", price: "250", system: "wii", selector: "Wii", url: "/Content/Images/Cn/pilotwings.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/31502.do", eshop: "800 points", eshoplink: "http://www.nintendo.com/games/detail/CnCiObq-4Q5y34RxYpL9eujUTejC3QfO"
+            },
+            {
+                name: "Super Smash Bros.", price: "250", system: "wii", selector: "Wii", url: "/Content/Images/Cn/smashbros.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/30502.do", eshop: "1,000 points", eshoplink: "http://www.nintendo.com/games/detail/vq2LDXcejXQ2vNjNkcQAv6ylA5y9lMzu"
+            },
+            {
+                name: "Mario Tennis", price: "250", system: "wii", selector: "Wii", url: "/Content/Images/Cn/mariotennis.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/29004.do", eshop: "1,000 points", eshoplink: "http://www.nintendo.com/games/detail/vIbkulYCNi28EZMm41Jrbl6YRDkOrezT"
+            },
+            {
+                name: "Eco Shooter: Plant 530", price: "250", system: "wii", selector: "Wii", url: "/Content/Images/Cn/ecoshooter.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/27508.do", eshop: "1,000 points", eshoplink: "http://www.nintendo.com/games/detail/l9AqW4GCx4yIck8s0iSnKGCsHsTMNXwU"
+            },
+            {
+                name: "Snowpack Park", price: "250", system: "wii", selector: "Wii", url: "/Content/Images/Cn/snowpark.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/27506.do", eshop: "800 points", eshoplink: "http://www.nintendo.com/games/detail/Wn3WjLmzdgQV7WETSM4stXCwDEz8o3b3"
+            },
+            {
+                name: "Excitebike: World Rally", price: "250", system: "wii", selector: "Wii", url: "/Content/Images/Cn/excitebikewii.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/26004.do", eshop: "1,000 points", eshoplink: "http://www.nintendo.com/games/detail/A1uEB9FAWRitLi-W56egMKoGY5p7D-Lk"
+            },
+            {
+                name: "Mario Party 2", price: "250", system: "wii", selector: "Wii", url: "/Content/Images/Cn/marioparty2.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/24004.do", eshop: "1,000 points", eshoplink: "http://www.nintendo.com/games/detail/1wWLs-g1b1KY6RIKDbgHZqGH1BCoxPXn"
+            },
+            {
+                name: "Super Mario Kart", price: "250", system: "wii", selector: "Wii", url: "/Content/Images/Cn/supermariokart.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/22502.do", eshop: "800 points", eshoplink: "http://www.nintendo.com/games/detail/18igoQM8gWRmoICYlLMoSuozKwWGgTUP"
+            },
+            {
+                name: "The Legend of Zelda: Majora's Mask", price: "250", system: "wii", selector: "Wii", url: "/Content/Images/Cn/zeldamajoras.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/23508.do", eshop: "1,000 points", eshoplink: "http://www.nintendo.com/games/detail/7OfVrKE-E5ri9Rjnqx9FBs0gIzJGZtns"
+            },
+            {
+                name: "Fluidity", price: "250", system: "wii", selector: "Wii", url: "/Content/Images/Cn/fluidity.png",
+                cnlink: "https://club.nintendo.com/rewards-details/a/22504.do", eshop: "1,200 points", eshoplink: "http://www.nintendo.com/games/detail/r1QM8ZnIi2Gku-gAVPoAq3Rc-iL0t4hM"
+            },
+            {
+                name: "3DS Classics: Twinbee", price: "150", url: "/Content/Images/Cn/twinbee.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/32504.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/UZylqd9TIXdIz6agVDmatqKqWsa_Yo_y"
+            },
+            {
+                name: "Super Mario Land 2: 6 Golden Coins", price: "150", url: "/Content/Images/Cn/supermarioland2.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45160.do", eshop: "$3.99", eshoplink: "http://www.nintendo.com/games/detail/B_ybyp7w-wBNmsR_zMlwBQbACdTKZMBH"
+            },
+            {
+                name: "Super Mario Land", price: "150", url: "/Content/Images/Cn/supermarioland3ds.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45158.do", eshop: "$3.99", eshoplink: "http://www.nintendo.com/games/detail/2saKwQMAvBrtz3Y9wTllG7-2OYn-ZOyZ"
+            },
+            {
+                name: "Kersploosh!", price: "150", url: "/Content/Images/Cn/kersploosh_3ds.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45106.do", eshop: "$2.99", eshoplink: "http://www.nintendo.com/games/detail/fXQhtNFh8IaC94K3E0cGOs8eo2WII50W"
+            },
+            {
+                name: "Baseball", price: "150", url: "/Content/Images/Cn/baseball_3ds.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45090.do", eshop: "$2.99", eshoplink: "http://www.nintendo.com/games/detail/F_N-OgnPFLyvUuXXnCi46T2kpiIsVSWa"
+            },
+            {
+                name: "Kid Icarus of Myths and Monsters", price: "150", url: "/Content/Images/Cn/kidicarus3ds.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45019.do", eshop: "$3.99", eshoplink: "http://www.nintendo.com/games/detail/niGHn_Q4ifauvxzUFgQgKlscxNt2zf7b"
+            },
+            {
+                name: "Metroid II: Return of Samus", price: "150", url: "/Content/Images/Cn/metroid2_3ds.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/32008.do", eshop: "$3.99", eshoplink: "http://www.nintendo.com/games/detail/ZJIPw1j3cMBl2wJie6zl65OMeIjZd6aA"
+            },
+            {
+                name: "Tennis", price: "150", url: "/Content/Images/Cn/tennis3ds.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/30002.do", eshop: "$2.99", eshoplink: "http://www.nintendo.com/games/detail/Rwf2zSpTnwqZYVAGArxhDSsPJyJxAyWo"
+            },
+            {
+                name: "Golf", price: "150", url: "/Content/Images/Cn/mariogolf.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/29502.do", eshop: "$2.99", eshoplink: "http://www.nintendo.com/games/detail/dHNML9ykklsNrxLqaTp1Y2Xc711OAOf4"
+            },
+            {
+                name: "Donkey Kong", price: "150", url: "/Content/Images/Cn/donkey_kong.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/28003.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/r3qMB2ZdHdIFXlDDoA6MYGLaDV-8jZNg"
+            },
+            {
+                name: "Mario's Picross", price: "150", url: "/Content/Images/Cn/marios_picross.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/24504.do", eshop: "$3.99", eshoplink: "http://www.nintendo.com/games/detail/ciYelxIww9-dB0zjLPeFsjcvroA5KbVf"
+            },
+            {
+                name: "Radar Mission", price: "150", url: "/Content/Images/Cn/radarmission.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/24502.do", eshop: "$2.99", eshoplink: "http://www.nintendo.com/games/detail/POjWKo-rXJIOcTAEOpKUhi3H9XmLOaQ-"
+            },
+            {
+                name: "Ketzal's Corridors", price: "200", url: "/Content/Images/Cn/ketzalscorridor.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45170.do", eshop: "$6.99", eshoplink: "http://www.nintendo.com/games/detail/6ywsFO7IfWNj2CW_AxMRlXyZM6v9t8jZ"
+            },
+            {
+                name: "3D Classics: Xevious", price: "200", url: "/Content/Images/Cn/xevious.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/22506.do", eshop: "$5.99", eshoplink: "http://www.nintendo.com/games/detail/sfSp0inPH0oilzztvI8WWqCNsbtlmkHv"
+            },
+            {
+                name: "Sparkle Snapshots 3D", price: "200", url: "/Content/Images/Cn/sparkle.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45168.do", eshop: "$5.99", eshoplink: "http://www.nintendo.com/games/detail/nWphrQ1Ta_6LlYrZwdx3pMtdvJxsD0Fg"
+            },
+            {
+                name: "Looksley's Line Up", price: "200", url: "/Content/Images/Cn/looksleys.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45166.do", eshop: "not available", eshoplink: "http://www.nintendo.com/games/detail/xFv-4ah7Igv1-HewgD8wOyWAyRVbs3EM"
+            },
+            {
+                name: "Wario Land 2", price: "200", url: "/Content/Images/Cn/warioland2.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45162.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/Ycez5rxXPR6LZbuNcyfzwPC8ECkZGIJ3"
+            },
+            {
+                name: "Punch-Out!! Featuring Mr. Dream", price: "200", url: "/Content/Images/Cn/punchout3ds.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/33004.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/MYRHumLXRPt3maS9iZDDx6lrM9y20ZuF"
+            },
+            {
+                name: "Mario Golf", price: "200", url: "/Content/Images/Cn/mario-golf-3ds.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/39504.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/xr2dkBcJuCYiX9lv-jAwxBsCK6WJtCy0"
+            },
+            {
+                name: "Donkey Kong 3", price: "200", url: "/Content/Images/Cn/donkeykong3.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45150.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/6fRhfH90gfwnUBn5GvFxRt50AOE7qTbQ"
+            },
+            {
+                name: "Brain Age Express: Arts & Letters", price: "200", url: "/Content/Images/Cn/brain_age_express_arts_letters_3ds.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45031.do", eshop: "not available", eshoplink: "http://www.nintendo.com/games/detail/pE8kXycBTug31u20uZQCC6FGCGFlxNht"
+            },
+            {
+                name: "The Legend of Zelda: Link's Awakening", price: "200", url: "/Content/Images/Cn/linksawakening.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45147.do", eshop: "$5.99", eshoplink: "http://www.nintendo.com/games/detail/MmoER_2Hlv50ZUt35Tb5YpHrhhNU57I6"
+            },
+            {
+                name: "Sakura Samurai: Art of the Sword", price: "200", url: "/Content/Images/Cn/sakurasamurai.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45145.do", eshop: "$6.99", eshoplink: "http://www.nintendo.com/games/detail/Dzb_C6ViEXIHAWfDvi7BsDPQ7JIwcrfC"
+            },
+            {
+                name: "A Kappa's Trail", price: "200", url: "/Content/Images/Cn/akappastrail.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45125.do", eshop: "not available", eshoplink: "http://www.nintendo.com/games/detail/WnO6orV2jh8gNKKMisSKrbsZcTVe95Nl"
+            },
+            {
+                name: "Tokyo Crash Mobs", price: "200", url: "/Content/Images/Cn/tokyo_crash_mobs_3ds.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45117.do", eshop: "$7.99", eshoplink: "http://www.nintendo.com/games/detail/pk6mvGWK3AuJe3PNM0nQdDLc0tv8yBgi"
+            },
+            {
+                name: "Brain Age Express: Math", price: "200", url: "/Content/Images/Cn/brain_age_express_math_3ds.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45104.do", eshop: "not available", eshoplink: "http://www.nintendo.com/games/detail/ExEYrV_lVY_XvMniEOJEyDQlT5pKkyp6"
+            },
+            {
+                name: "Donkey Kong Jr.", price: "200", url: "/Content/Images/Cn/donkey_kong_jr.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45004.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/hdxw0-0aCE201Slxf9Dqs2kS5CmZeQ5P"
+            },
+            {
+                name: "Metroid", price: "200", url: "/Content/Images/Cn/metroid.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/42006.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/gS0eLnwQcwwXa7THX396jPmveOcaVCr2"
+            },
+            {
+                name: "The Legend of Zelda", price: "200", url: "/Content/Images/Cn/legend-of-zelda-3ds.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/41002.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/u4TZ2DVudT9o7613XtMrVtu93lPY01mg"
+            },
+            {
+                name: "3D Classics : Kid Icarus", price: "200", url: "/Content/Images/Cn/kid icarus.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/34502.do", eshop: "$5.99", eshoplink: "http://www.nintendo.com/games/detail/Jh-8m_ayxVBEk4JRbFVlOY1CThV5Nm1H"
+            },
+            {
+                name: "3D Classics Excitebike", price: "200", url: "/Content/Images/Cn/excitebike3ds.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/29504.do", eshop: "$5.99", eshoplink: "http://www.nintendo.com/games/detail/rzR2UbTBHzXgiibdHhfKQZD3PTzDUTG3"
+            },
+            {
+                name: "Brain Age Express : Sudoku", price: "200", url: "/Content/Images/Cn/brainageexpresssodoku.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/28009.do", eshop: "not available", eshoplink: "http://www.nintendo.com/games/detail/TI_IHzm7JIpipcD4qHI47qVb3at7smx2"
+            },
+            {
+                name: "3D Classics : Urban Champion", price: "200", url: "/Content/Images/Cn/urbanchampion3dds.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/27502.do", eshop: "$4.99", eshoplink: "http://www.nintendo.com/games/detail/f-VmbnNN5DWsagC5FypPYqLFQCbLHJK3"
+            },
+            {
+                name: "Mario vs. Donkey Kong: Minis March Again!", price: "200", url: "/Content/Images/Cn/mario_vs_dk_minis_march_again.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/22508.do", eshop: "$7.99", eshoplink: "http://www.nintendo.com/games/detail/qusAr1yYWSwy6mt8LwFo1z6kOISzKRrf"
+            },
+            {
+                name: "Chibi-Robo!: Photo Finder", price: "250", url: "/Content/Images/Cn/chibirobo.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45172.do", eshop: "$9.99", eshoplink: "http://www.nintendo.com/games/detail/lRHoJl7YV_r6Apqhc8ofANPPVT6D6RWQ"
+            },
+            {
+                name: "Mario and Donkey Kong: Minis on the Move", price: "250", url: "/Content/Images/Cn/mariodonkeykong.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45143.do", eshop: "$9.99", eshoplink: "http://www.nintendo.com/games/detail/H7tdBXk6tR7IWM19e9lLE8IGRpCQwio6"
+            },
+            {
+                name: "Dillon's Rolling Western", price: "250", url: "/Content/Images/Cn/dillons_rolling_western.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/42005.do", eshop: "$9.99", eshoplink: "http://www.nintendo.com/games/detail/8d0kSEesWcvH0tB2kgOUFS5U0S4g9Ywf"
+            },
+            {
+                name: "HarmoKnight", price: "300", url: "/Content/Images/Cn/harmonknight.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45176.do", eshop: "$14.99", eshoplink: "http://www.nintendo.com/games/detail/sgUoBULBqseJpl6q3YC3Q0HUuAqOeA3H"
+            },
+            {
+                name: "Dillon's Rolling Western: The Last Ranger", price: "300", url: "/Content/Images/Cn/rollingwesternthelastranger.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45174.do", eshop: "$10.99", eshoplink: "http://www.nintendo.com/games/detail/1xUaCA9pYlRojeYS1Z24ViEm3M0BDBrd"
+            },
+            {
+                name: "Fluidity: Spin Cycle", price: "300", url: "/Content/Images/Cn/fluidityspincycle.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45154.do", eshop: "$10.99", eshoplink: "http://www.nintendo.com/games/detail/V2k7a7qlcNLh3qthMUSFfaccYFVvl-G0"
+            },
+            {
+                name: "Crosswords Plus", price: "600", url: "/Content/Images/Cn/crosswords.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45184.do", eshop: "$29.99", eshoplink: "http://www.nintendo.com/games/detail/7JCsU3D1wBneXvERsvCU7LPxVX5NELKP"
+            },
+            {
+                name: "Brain Age: Concentration Training", price: "600", url: "/Content/Images/Cn/brainageconcentration.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45182.do", eshop: "$29.99", eshoplink: "http://www.nintendo.com/games/detail/r7B-qNLnhlZ-9777n1DsQSlscZ1TcIw3"
+            },
+            {
+                name: "Super Mario 3D Land", price: "600", url: "/Content/Images/Cn/supermario3dland.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45180.do", eshop: "$29.99", eshoplink: "http://www.nintendo.com/games/detail/VnTS_u2DBaJ5N-PXEJC-gWWMkSC5Rixm"
+            },
+            {
+                name: "New Super Mario Bros 2", price: "600", url: "/Content/Images/Cn/newsupermariobros2.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45178.do", eshop: "$29.99", eshoplink: "http://www.nintendo.com/games/detail/ehSBsDqZYxWzmHC9ODf7wDDu5_TdrXhw"
+            },
+            {
+                name: "Donkey Kong Country Returns 3D", price: "600", url: "/Content/Images/Cn/donkeykongcountry.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45152.do", eshop: "$29.99", eshoplink: "http://www.nintendo.com/games/detail/zp2Ns75itEVaf0PoEIyv49f2MEBspSeA"
+            },
+            {
+                name: "Star Fox 64 3D", price: "700", url: "/Content/Images/Cn/starfox643d.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45190.do", eshop: "$39.99", eshoplink: "http://www.nintendo.com/games/detail/0j1gpK8X4abgC1PE17H7K9PGo5ehd1QR"
+            },
+            {
+                name: "Paper Mario: Sticker Star", price: "700", url: "/Content/Images/Cn/superpapermario.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45188.do", eshop: "$39.99", eshoplink: "http://www.nintendo.com/games/detail/j7bYnC_nDBvYFdiWYTw47LxqGmIXy66t"
+            },
+            {
+                name: "Kid Icarus: Uprising", price: "700", url: "/Content/Images/Cn/kidicarus.png", system: "3ds", selector: "DS",
+                cnlink: "https://club.nintendo.com/rewards-details/a/45186.do", eshop: "$34.99", eshoplink: "http://www.nintendo.com/games/detail/leoRNk4z_ui0yblzMlCVz6Wy9jGb5qSq"
+            }
+
+        ];
+
+
+    </script>
+
+    <style>
+        body {
+            font-family: "Lato", "Tahoma", "Arial", san-serif;
+            overflow-y: scroll;
+        }
+
+        .DS {
+            color: red;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+            .DS::after {
+                content: '3DS';
+            }
+
+        .Wii {
+            color: #4eb9e9;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+            .Wii::after {
+                content: 'Wii';
+            }
+
+
+        .WiiU {
+            color: #0584c4;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+            .WiiU::after {
+                content: 'Wii U';
+            }
+
+
+        .Physical {
+            color: #444;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+            .Physical::after {
+                content: "Physical";
+            }
+
+        .game-banner {
+            border-radius: 10px;
+        }
+
+        .game-title {
+            font-size: 16px;
+            color: black;
+            font-weight: bold;
+        }
+
+        .game-coin {
+            font-weight: bold;
+        }
+
+        .game-item {
+            margin-bottom: 10px;
+        }
+
+        .filter-option {
+            padding-left: 20px;
+            padding-right: 10px;
+            cursor: pointer;
+        }
+
+        label {
+            cursor: pointer;
+        }
+
+        .mark-game-name, .mark-game-price {
+            float: left;
+        }
+
+        .mark-game-name {
+            width: 200px;
+            font-size: 12px;
+        }
+
+        .mark-game-price {
+            width: 40px;
+            color: #b47900;
+            font-weight: bold;
+        }
+    </style>
+    <script type="text/javascript">
+        var appInsights = window.appInsights || function (config) {
+            function s(config) { t[config] = function () { var i = arguments; t.queue.push(function () { t[config].apply(t, i) }) } } var t = { config: config }, r = document, f = window, e = "script", o = r.createElement(e), i, u; for (o.src = config.url || "//az416426.vo.msecnd.net/scripts/a/ai.0.js", r.getElementsByTagName(e)[0].parentNode.appendChild(o), t.cookie = r.cookie, t.queue = [], i = ["Event", "Exception", "Metric", "PageView", "Trace"]; i.length;) s("track" + i.pop()); return config.disableExceptionTracking || (i = "onerror", s("_" + i), u = f[i], f[i] = function (config, r, f, e, o) { var s = u && u(config, r, f, e, o); return s !== !0 && t["_" + i](config, r, f, e, o), s }), t
+        }({
+            instrumentationKey: "d067dfda-6b13-4a0f-989d-8fc3554cf2d0"
+        });
+
+        window.appInsights = appInsights;
+        appInsights.trackPageView();
+    </script>
+
+</head>
+<body>
+    <div id="fb-root"></div>
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.0";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+    <div>
+        <div style="width: 100%;background-color: #ddd; height: 50px;">
+            <div style="margin: 0 auto; width: 920px; font-size: 30px; color: #444; line-height: 50px">
+                Devmonster.me // Club Nintendo Filter
+            </div>
+        </div>
+        <div style="height: 46px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; margin-bottom: 20px;">
+            <div class="row" style="margin: 0 auto; width: 920px; line-height: 45px; color: gray; font-size: 16px;">
+                <div class="col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                    <span style="float:left;">System</span>
+                    <ul class="list-unstyled list-inline">
+                        <li class="filter-option"><input type="checkbox" id="DS" checked="checked" />&nbsp;<label for="DS">3DS</label></li>
+                        <li class="filter-option"><input type="checkbox" id="Wii" checked="checked" />&nbsp;<label for="Wii">Wii</label></li>
+                        <li class="filter-option"><input type="checkbox" id="WiiU" checked="checked" />&nbsp;<label for="WiiU">WiiU</label></li>
+                        <li class="filter-option"><input type="checkbox" id="Physical" checked="checked" />&nbsp;<label for="Physical">Physical Rewards</label></li>
+                        <li class="filter-option"><input type="checkbox" id="Marked" />&nbsp;<label for="Marked">Show Marked Only</label></li>
+                    </ul>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                    <span>Coins:</span>
+                    <input type="text" id="my_coins" style="line-height: 20px;" />
+                </div>
+
+            </div>
+        </div>
+        <div style="width: 100%; position: absolute;">
+
+        </div>
+        <div style="margin: 0 auto; width: 920px; padding: 0 0 35px 0; font-size: 22px;">
+            <div class="row">
+                <div class="col-md-2 col-sm-2 col-lg-2">
+                    <img src="~/Content/Images/CN/arrow.jpg" class="img-responsive" />
+                </div>
+                <div class="col-md-10 col-sm-10 col-lg-10">
+                    <div style=" font-size: 22px;">Can't decide which Club Nintendo Rewards to grab? Filter them out by System or by Coins to help you decide which ones to get</div>
+                    <div style="font-size: 14px; padding-top: 10px;">
+                        Click on the game image to go to its Club Nintendo page. If the game is available on eShop, the price will be shown; clicking on the eShop logo will take you to its eShop page. <br />
+                        <br />
+                        Update: Feb 9: You can now mark items. Click on the <img src="~/Content/Images/CN/star-off.png" /> to mark an item. All marked items will be listed and their total coins will be calculated on the right. Check 'Show Marked Only' to hide all items except those which are marked
+                        <br />
+                        Update 2: Physical rewards have been included
+
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="container" style="max-width:920px;">
+            <div class="row">
+                <div class="col-md-8">
+                    <ul class="game-list list-unstyled" style="margin: 0 auto; width: 920px"></ul>
+                </div>
+                <div class="col-md-4" style="background-color:white; position: fixed; left: 60%; max-width: 350px;">
+                    <div class="donate">
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                            <input type="hidden" name="cmd" value="_s-xclick">
+                            <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----MIIHNwYJKoZIhvcNAQcEoIIHKDCCByQCAQExggEwMIIBLAIBADCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJKoZIhvcNAQEBBQAEgYBaOPgJwQJxgmxJAw8U51FcWWD0Ra2sqrRkQqqGoEIzsLZF/IJhnB7MgT4eBXL806JUqQw6BQgtpRiZGm9GsVxyiFj4lIVGDTAJTvp/jEdE4pG6PLMwaf7wUAjM1thUCKh5/FoQb0wPVFVrbR5Cuy0tTtFXie00CAKqcdX4Abmy9TELMAkGBSsOAwIaBQAwgbQGCSqGSIb3DQEHATAUBggqhkiG9w0DBwQIOZHApTUSylaAgZDLONtAL/qO0nzseo0BXlwBYadMTBR8wuXtfKpyHAvZWUDHef0TMVB3Od5DO0uK7NJ4ybNDkWm07ytSMqvVjZUvXGmMjdHIbnoNbbdvjKMF+vDVCr1XM83jCDkQFDOUpL4qYFnN3VhwOfjBavYyMWgOhSrZQIZB2ItHYEm9MmHsjmiChkytmR8DlUr1smf2JDygggOHMIIDgzCCAuygAwIBAgIBADANBgkqhkiG9w0BAQUFADCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20wHhcNMDQwMjEzMTAxMzE1WhcNMzUwMjEzMTAxMzE1WjCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMFHTt38RMxLXJyO2SmS+Ndl72T7oKJ4u4uw+6awntALWh03PewmIJuzbALScsTS4sZoS1fKciBGoh11gIfHzylvkdNe/hJl66/RGqrj5rFb08sAABNTzDTiqqNpJeBsYs/c2aiGozptX2RlnBktH+SUNpAajW724Nv2Wvhif6sFAgMBAAGjge4wgeswHQYDVR0OBBYEFJaffLvGbxe9WT9S1wob7BDWZJRrMIG7BgNVHSMEgbMwgbCAFJaffLvGbxe9WT9S1wob7BDWZJRroYGUpIGRMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbYIBADAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBQUAA4GBAIFfOlaagFrl71+jq6OKidbWFSE+Q4FqROvdgIONth+8kSK//Y/4ihuE4Ymvzn5ceE3S/iBSQQMjyvb+s2TWbQYDwcp129OPIbD9epdr4tJOUNiSojw7BHwYRiPh58S1xGlFgHFXwrEBb3dgNbMUa+u4qectsMAXpVHnD9wIyfmHMYIBmjCCAZYCAQEwgZQwgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tAgEAMAkGBSsOAwIaBQCgXTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0xNTAyMDgwODM4MzZaMCMGCSqGSIb3DQEJBDEWBBQYLLXkF12q7h18zl7vrK8foMJsGTANBgkqhkiG9w0BAQEFAASBgA7HCBL4V6zIU927qTvo8OrQeMhDj5z8r98qJHC/cphmt7Mfj3pHhbedS0jFjpbD4OiYmnAhwb0MDAmHifx7y9CaY+01FFB0mcCJr/85bAJfgE+aJ02Hhu4lbjNmzW3ZIeEhioYgb9VcDsq7vb4FQZoxAtC0uWB6KBpp0r1AKyC9-----END PKCS7-----">
+                            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                        </form>
+                        <span>Can you please donate for my efforts<br /> and to pay for bandwidth? :)</span>
+                        <br /><br />
+                    </div>
+                    <div style="padding-top:20px;">
+                        <div>You marked:</div>
+                        <ul class="list-unstyled marked-list-parent">                           
+                        </ul>
+                        <div style="float: left; width: 100%;height:2px; border-bottom: 1px solid gray;"></div>
+                        <div class="mark-game-price total-price">0</div>
+                        <div class="mark-game-name"> coins total</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="text-center">
+        <div style="padding: 30px 0 30px 0;">Still under construction :) I made this in my spare time; if there are errors in the details please contact me at <a href="mailto:devmonster@ymail.com">devmonster&commat;ymail.com</a></div>
+    </div>
+    <div style="padding-top: 100px;" class="text-center">
+        <div>
+            <!-- hitwebcounter Code START -->
+            <a href="http://www.hitwebcounter.com/" target="_blank">
+                <img src="http://hitwebcounter.com/counter/counter.php?page=5976789&style=0007&nbdigits=5&type=page&initCount=300" title="Tracking hits" alt="Tracking hits" border="0">
+            </a><br />
+            <!-- hitwebcounter.com --><a href="http://www.hitwebcounter.com/" title="Web Counter"
+                                         target="_blank" style="font-family: Arial, Helvetica, sans-serif;
+font-size: 10px; color: #6E6A68; text-decoration: none ;">
+                <em>Web Counter</em>
+            </a>
+        </div>
+        <div style="display: none;">
+            <!-- Start of SimpleHitCounter Code -->
+            <div align="center"><a href="http://www.simplehitcounter.com" target="_blank"><img src="http://simplehitcounter.com/hit.php?uid=1856954&f=16777215&b=0" border="0" height="18" width="83" alt="web counter"></a><br><a href="http://www.simplehitcounter.com" target="_blank" style="text-decoration:none;">web counter</a></div>
+            <!-- End of SimpleHitCounter Code -->
+
+        </div>
+    </div>
+</body>
+</html>

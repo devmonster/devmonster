@@ -1,0 +1,181 @@
+﻿/* Reset */
+header, footer, nav, aside, article, section {
+    display: block;
+}
+
+body {
+    color: white;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.like-box {
+    position: fixed;
+    right: 0px;
+    top: 10px;
+    z-index: 10000;
+    width: 160px;
+}
+
+#home {
+    background: url(../content/images/blue-1080.jpg) 50% 0 repeat fixed;
+    background-color: #020041;
+    min-height: 768px;
+    height: 768px;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1920px;
+    position: relative;
+}
+
+    #home section {
+        height: 458px;
+        position: absolute;
+        text-align: center;
+        top: 150px;
+        width: 100%;
+    }
+
+#about {
+    background: url(../content/images/gray-1080.jpg) 50% 0 repeat fixed;
+    background-color: #1E1E1E;
+    min-height: 768px;
+    height: 768px;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1920px;
+    position: relative;
+    -webkit-box-shadow: 0 0 50px rgba(0,0,0,0.8);
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+}
+
+    #about section {
+        height: 458px;
+        position: absolute;
+        text-align: center;
+        top: 150px;
+        width: 100%;
+    }
+
+
+#contact {
+    background: url(../content/images/contact_bg.jpg) 50% 0 repeat fixed;
+    min-height: 250px;
+    height: 250px;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1920px;
+    position: relative;
+}
+
+
+    #contact section {
+        height: 100px;
+        top: 150px;
+        width: 100%;
+    }
+
+.jumbo-header {
+    font-weight: 300;
+    font-size: 72px;
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+}
+
+li.weaker-text {
+    color: gray;
+    font-weight: bold;
+}
+
+#aboutme {
+    font-weight: 100;    
+}
+
+    #aboutme .my-name {
+        color: white;
+        font-size: 38px;
+    }
+
+    #aboutme .first-work {
+        color: #D8F547;
+        font-size: 26px;
+    }
+
+    #aboutme .second-work {
+        color: #9AFF8F;
+        font-size: 26px;
+    }
+
+    #aboutme .third-work {
+        color: white;
+        font-size: 26px;
+    }
+
+    #aboutme .description {
+        padding-top: 30px;
+    }
+
+@media screen and (max-width: 1366px) {
+    #home {
+        background: url(../content/images/blue-1366.jpg) 50% 0 repeat fixed;
+    }
+
+    #about {
+        background: url(../content/images/gray-1366.jpg) 50% 0 repeat fixed;
+    }
+}
+
+
+
+
+@media screen and (min-width : 320px) and (max-width : 480px) {
+    #home {
+        background: url(../content/images/blue-480.jpg) repeat fixed center top !important;
+        min-height: 580px;
+        height: 580px;
+    }
+
+
+    #about {
+        background: url(../content/images/gray-400.jpg) repeat fixed center top !important;
+    }
+
+    .jumbo-header {
+        font-size: 50px;
+    }
+
+    #aboutme .my-name {
+        color: white;
+        font-size: 30px !important;
+        padding-bottom: 20px;
+    }
+
+    #aboutme .first-work {
+        color: #D8F547;
+        font-size: 20px !important;
+    }
+
+    #aboutme .second-work {
+        color: #9AFF8F;
+        font-size: 20px !important;
+    }
+
+    #aboutme .third-work {
+        color: white;
+        font-size: 20px !important;
+    }
+}

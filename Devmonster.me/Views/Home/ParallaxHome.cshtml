@@ -1,0 +1,138 @@
+﻿@{
+    ViewBag.Title = "ParallaxHome";
+    Layout = "~/Views/Shared/_LayoutFluid.cshtml";
+}
+<!--
+    Hello! Thanks for looking in the source code.
+
+    Are you a gamer? Add me up!
+
+    Steam: devmonster86
+    Uplay: devmonster
+    Starcraft II: Devmonster
+    Nintendo WiiU NNID: Devmonster
+                        DevmonsterRed
+    Nintendo 3DS FC: 3523-2611-6218
+    PSN ID: devmonster86
+    Xbox Live: devmonster86
+
+-->
+<link href="~/Content/Site.css" rel="stylesheet" />
+<div class="container-fluid">
+    <div id="home" data-type="background" data-speed="10" class="pages">
+        <section>
+            <div class="container">
+                <div class="col-md-8">
+                    <div class="jumbo-header text-left">devmonster</div>
+
+                    <div class="text-left">
+                        <ul class="list-inline">
+                            <li class="weaker-text text-uppercase">.NET</li>
+                            <li>C#</li>
+                            <li>VB</li>
+                            <li>SharePoint</li>
+                        </ul>
+                        <ul class="list-inline">
+                            <li class="weaker-text text-uppercase">Web</li>
+                            <li>UX</li>
+                            <li>MVC</li>
+                            <li>jQuery</li>
+                            <li>CSS3</li>
+                            <li>Bootstrap</li>
+                            <li>AngularJS</li>
+                            <li>Polymer</li>
+                            <li>PHP</li>
+                        </ul>
+                        <ul class="list-inline">
+                            <li class="weaker-text text-uppercase">Mobile</li>
+                            <li>Web</li>
+                            <li>Windows Phone</li>
+                            <li>Android</li>
+                        </ul>
+                        <ul class="list-inline">
+                            <li class="weaker-text text-uppercase">Integration</li>
+                            <li>SQL</li>
+                            <li>Web API</li>
+                            <li>Web Services</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div id="about" data-type="background" data-speed="10" class="pages">
+        <section>
+            <div class="container">
+                <div>
+                    <article id="aboutme" class="col-md-7 col-md-offset-5 text-left">
+                        <p class="my-name text-uppercase" style="color: white; font-size: 38px;">
+                            Hi, I'm Ran Angelo Miano
+                        </p>
+                        <p class="first-work text-uppercase">
+                            Software and Web Developer
+                        </p>
+                        <p class="second-work text-uppercase">
+                            User Experience Designer
+                        </p>
+                        <p class="third-work text-uppercase">
+                            From the Philippines
+                        </p>
+                        <br />
+                        <p>I do web development using C#.NET and Visual Basic.NET, as well as creating user interface designs for the web and mobile.</p>
+                        <p>I'm currently working as a web and mobile developer for <a href="http://www.meninblue.com/" target="_blank">Men in Blue</a>, a solutions provider based in Copenhagen, Denmark. 
+                           I've done projects for <a href="http://smits.com.ph/" target="_blank">San Miguel Corporation</a> involving web-based business-to-business purchasing systems, and integration between different systems.</p>
+                        <p>When I'm not developing apps and solutions, I enjoy listening to music, playing games, and Pokemon. I also enjoy collecting gadgets and is always interested in the latest in technology.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div id="contact" data-type="background" data-speed="10" class="pages">
+        <section>
+            <div class="container" style="padding-top: 20px;">
+                <div style="color:black; font-size: 22px;" class="row text-center">
+                    <a id="contact"></a>
+                    Get in touch with me
+                </div>
+                <div style="padding-top:20px;">
+                    <div id="contact" class="row text-center">
+                        <ul class="list-inline">
+                            @*<li><a target="_blank" href="http://www.facebook.com/devmonster">Facebook</a></li>
+                            <li><a target="_blank" href="http://www.twitter.com/devmonster">Twitter</a></li>*@
+                            <li><a target="_blank" href="http://about.me/devmonster">About.Me</a></li>
+                            @*<li><a target="_blank" href="http://linkedin.com/pub/mark-angelo-miano/44/438/754">LinkedIn</a></li>
+                            <li><a target="_blank" href="http://github.com/devmonster">Github</a></li>
+                            <li><a target="_blank" href="http://instagram.com/devmonster86">Instagram</a></li>
+                            <li><a target="_blank" href="http://plus.google.com/+RanAngeloMiano/">Google+</a></li>
+                            <li><a target="_blank" href="http://klout.com/devmonster">Klout</a></li>
+                            <li><a target="_blank" href="http://last.fm/user/devmonster">last.fm</a></li>*@
+                            <li><a target="_blank" href="http://ask.fm/devmonster86">ask.fm</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="padding-top: 20px;">
+
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var mobile = (/iphone|ipod|ipad|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase()));
+        if (mobile) { addEventListener("load", function () { setTimeout(hideURLbar, 0); }, false); function hideURLbar() { window.scrollTo(0, 1); } }
+        if (!mobile) {
+            var $window = $(window);
+            $('div[data-type="background"]').each(function () {
+                var $bgobj = $(this);
+                $(window).scroll(function () {
+                    var yPos = -($window.scrollTop() / $bgobj.data('speed'));
+                    var coords = '50% ' + yPos + 'px';
+                    $bgobj.css({ backgroundPosition: coords });
+                });
+            });
+        }
+        $("div:gt(15)").each(function () { $(this).attr("style", "display: none;"); });
+    });
+</script>
