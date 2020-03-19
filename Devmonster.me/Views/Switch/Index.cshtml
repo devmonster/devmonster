@@ -1,0 +1,225 @@
+﻿@model Devmonster.me.Models.SwitchViewModel
+
+@{
+    Layout = null;
+
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta property="og:title" content="Ran Angelo's Switch Page">
+    <meta property="og:description" content="Friend Code: SW-7526-2856-5101">
+    <meta property="og:image" content="https://devmonster.azurewebsites.net/Content/images/preview.png">
+
+    <title>Ran Angelo's Switch Page</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <style>
+        @@font-face {
+            font-family: NintendoSwitch;
+            src: url('/fonts/Nintendo_Switch_UI_Font.ttf');
+        }
+
+        body {
+            background-color: #282828;
+            color: white;
+            font-family: 'NintendoSwitch', sans-serif;
+        }
+
+        html {
+            overflow-y: scroll;
+        }
+
+        .FriendlyName {
+            font-size: 15px;
+            color: #E8E8E8;
+        }
+
+        .CompanyName, .rank {
+            font-size: 12px;
+            font-weight: normal;
+            color: gray;
+        }
+
+        .CompanyName {
+            line-height: 35px;
+        }
+
+        .timeago, .pcname {
+            font-weight: normal;
+            color: gray;
+            font-size: 0.8em;
+        }
+
+        .totalhours {
+            font-weight: bold;
+        }
+
+        .row-normal {
+            background-color: #303030;
+        }
+
+        .row-alternate {
+            background-color: #3B3B3B;
+        }
+
+        .nav a {
+            color: white;
+        }
+
+            .nav a:hover {
+                color: black;
+            }
+
+        .main-brand .title {
+            color: #808080;
+            font-size: 2em;
+        }
+
+        .main-brand.wrapper {
+            padding-top: 12px;
+        }
+
+        .main-wrapper {
+            padding-top: 20px;
+        }
+
+        h5 {
+            text-transform: uppercase;
+            font-size: 1em;
+            color: #808080;
+            padding-top: 10px;
+            padding-bottom: 3px;
+        }
+
+        .itemRow {
+            padding-top: 10px;
+            padding-bottom: 5px;
+        }
+
+        .lineSeparator {
+            height: 1px;
+            background-color: #383837;
+        }
+
+        .lineSeparatorWhite {
+            height: 1px;
+            background-color: #FFFFFF;
+        }
+
+        .link-switchview {
+            padding-top: 10px;
+            display: block;
+        }
+
+        .totalHours {
+            display: none;
+        }
+
+        .hilite {
+            color: #0cffce;
+        }
+
+        .ign {
+            padding: 25px 20px;
+        }
+
+        .ignValue {
+            font-size: 24px;
+        }
+
+        .fc {
+            padding: 10px 20px;
+        }
+
+        .fctitle {
+            font-size: 14px;
+        }
+
+        .fcvalue {
+            font-size: 18px;
+        }
+
+
+        .playActivityTitle {
+            border-left: 5px solid gray;
+            margin-top: 30px;
+            padding-left: 8px;
+            margin-bottom: 10px;
+        }
+
+        .profileTab {
+            font-size: 22px;
+            border-left: 5px solid #0cffce;
+            color: #0cffce;
+            padding-left: 15px;
+            margin-left: 25px;
+            height: 30px;
+        }
+
+        .headbar {
+            padding: 20px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="container">
+            <div class="headbar">
+                Ran Angelo's Page
+            </div>
+            <div class="lineSeparatorWhite"></div>
+            <div style="height:30px;"></div>
+            <div class="row">
+                <div class="col-md-3 visible-md-block visible-lg-block profilePane">
+                    <div class="profileTab">Profile</div>
+                </div>
+                <div class="col-md-9 thelist">
+
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            <img class="img-responsive" src="/Content/Images/me.png" />
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-xs-8">
+                            <div class="lineSeparator"></div>
+                            <div class="ign"><span class="ignValue">Ran Angelo</span></div>
+                            <div class="lineSeparator"></div>
+                            <div class="fc">
+                                <span class="fctitle">Friend Code: </span><span class="fcvalue"><nobr>SW-7526-2856-5101</nobr></span>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="playActivityTitle">Play Activity</div>
+                    <div class="lineSeparator"></div>
+
+                    @foreach (Devmonster.me.Models.NintendoGameItem item in Model.Items)
+                    {
+                        <div class="row itemRow">
+                            <div class="col-xs-2 col-md-1 text-right rank">
+                                <img height="50" width="50" src="https://dltouchpoint.blob.core.windows.net/downloads/Img/Tabs/@{@item.GameName}.png" />
+                            </div>
+                            <div class="col-xs-10 col-md-11">
+                                <span class="FriendlyName">@item.GameName</span>
+                            </div>
+                            <div class="col-xs-10 col-md-11">
+                                <span class="CompanyName  @(item.IsHighlighted ? "hilite" : "")">Played @item.GameHours</span>
+                            </div>
+
+                            <div class="col-xs-1"></div>
+                        </div>
+                        <div class="lineSeparator"></div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="height:100px"></div>
+</body>
+</html>

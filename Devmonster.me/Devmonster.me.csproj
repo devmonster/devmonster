@@ -121,11 +121,14 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\GaasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SwitchController.cs" />
     <Compile Include="Controllers\VoicePokedexController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\NintendoGameItem.cs" />
     <Compile Include="Models\ResponseData.cs" />
+    <Compile Include="Models\SwitchViewModel.cs" />
     <Compile Include="Models\VoiceWebhookQuery.cs" />
     <Compile Include="Models\VoiceWebhookResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -149,6 +152,8 @@
     <Content Include="Content\Images\gray-400.jpg" />
     <Content Include="Content\Images\gray-800.jpg" />
     <Content Include="Content\Images\main-1920.jpg" />
+    <Content Include="Content\Images\me.png" />
+    <Content Include="Content\Images\preview.png" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="mario.ico" />
@@ -171,6 +176,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\freelancer.js" />
+    <Content Include="fonts\Nintendo_Switch_UI_Font.ttf" />
     <None Include="Properties\PublishProfiles\devmonster - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
@@ -212,6 +218,7 @@
     <Content Include="Views\Shared\_GreetLayout.cshtml" />
     <Content Include="Views\Gaas\Operations.cshtml" />
     <Content Include="Views\Shared\_GreetLayoutNewYear.cshtml" />
+    <Content Include="Views\Switch\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
