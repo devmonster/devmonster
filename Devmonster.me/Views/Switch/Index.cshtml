@@ -14,7 +14,6 @@
 
     <title>Ran Angelo's Switch Page</title>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <script src="~/Scripts/jquery-3.2.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
 
@@ -124,6 +123,10 @@
             color: #0cffce;
         }
 
+        .hiliteGreen{
+            color: #77c406;
+        }
+
         .ign {
             padding: 25px 20px;
         }
@@ -189,10 +192,28 @@
                             <div class="lineSeparator"></div>
                             <div class="ign"><span class="ignValue">Ran Angelo</span></div>
                             <div class="lineSeparator"></div>
+                            @if (Model.isPlaying)
+                            {
+                                <div class="row" style="padding:25px;">
+                                    <div class="col-xs-5 col-sm-3 col-lg-2" >
+                                        <img class="img-responsive" src="https://dltouchpoint.blob.core.windows.net/downloads/Img/Tabs/@{@Model.NoteText}.png" />
+                                    </div>
+                                    <div class="col-xs-7 col-sm-9 col-lg-10">
+                                        <div class="hiliteGreen" style="padding:5px;font-weight:bold">■ Online</div>
+                                        <div style="padding:5px;">@Model.NoteText</div>
+                                    </div>
+
+                                </div>
+                            }
+                            else
+                            {
+                                <div style="padding:20px;">@Model.NoteText</div>
+                            }
+                            <div class="lineSeparator"></div>
                             <div class="fc">
                                 <span class="fctitle">Friend Code: </span><span class="fcvalue"><nobr>SW-7526-2856-5101</nobr></span>
                             </div>
-                            
+
                         </div>
                     </div>
 
