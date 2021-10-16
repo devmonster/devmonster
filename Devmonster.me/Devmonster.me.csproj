@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Images\Previews\" />
     <Folder Include="Views\VoicePokedex\" />
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +144,7 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\freelancer.css" />
+    <Content Include="Content\Images\sw_acnl.jpg" />
     <Content Include="Content\Images\blue-1080.jpg" />
     <Content Include="Content\Images\blue-1366.jpg" />
     <Content Include="Content\Images\blue-480.jpg" />
@@ -219,6 +221,7 @@
     <Content Include="Views\Gaas\Operations.cshtml" />
     <Content Include="Views\Shared\_GreetLayoutNewYear.cshtml" />
     <Content Include="Views\Switch\Index.cshtml" />
+    <Content Include="Views\Switch\Switch.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
