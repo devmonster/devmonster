@@ -16,7 +16,7 @@ namespace Devmonster.me.Controllers
         // GET: Switch
         public ActionResult Index()
         {
-            string queryString = "SELECT ExeName, Sum(ActiveTime) [ActiveTime], Max(DateStamp) FROM AppDataAll WHERE PCName in ('PikaSwitch', 'Switch', 'Pokemon Switch', 'ACSWITCH') GROUP BY ExeName ORDER BY Max(dateStamp) DESC";
+            string queryString = "SELECT ExeName, Sum(ActiveTime) [ActiveTime], Max(DateStamp) FROM AppDataAll WHERE PCName in ('PikaSwitch', 'Switch', 'Pokemon Switch', 'ACSWITCH', 'OLEDSWITCH') GROUP BY ExeName ORDER BY Max(dateStamp) DESC";
             string supportQuery = "IF EXISTS (SELECT * FROM NowPlaying) BEGIN SELECT TOP 1 GameName[Value], '1'[IsPlaying] FROM NowPlaying END ELSE BEGIN SELECT Max(DateStamp)[Value], '0'[IsPlaying] From AppHistory WHERE PCName in ('PikaSwitch', 'Switch', 'Pokemon Switch') END";
 
             SqlConnection conn = new SqlConnection();
