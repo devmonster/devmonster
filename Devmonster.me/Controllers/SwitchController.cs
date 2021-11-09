@@ -11,13 +11,13 @@ namespace Devmonster.me.Controllers
     public class SwitchController : Controller
     {
 
-        string connectionString = "Server=tcp:appupconso.database.windows.net,1433;Initial Catalog=appupconso;Persist Security Info=False;User ID=ran;Password=..Shadowsong13..;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        string connectionString = "Server=tcp:serverniran.southeastasia.cloudapp.azure.com,1433;Initial Catalog=appup;Persist Security Info=False;User ID=appupuser;Password=..Shadowsong13..;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
         // GET: Switch
         public ActionResult Index()
         {
             string queryString = "SELECT ExeName, Sum(ActiveTime) [ActiveTime], Max(DateStamp) FROM AppDataAll WHERE PCName in ('PikaSwitch', 'Switch', 'Pokemon Switch', 'ACSWITCH', 'OLEDSWITCH') GROUP BY ExeName ORDER BY Max(dateStamp) DESC";
-            string supportQuery = "IF EXISTS (SELECT * FROM NowPlaying) BEGIN SELECT TOP 1 GameName[Value], '1'[IsPlaying] FROM NowPlaying END ELSE BEGIN SELECT Max(DateStamp)[Value], '0'[IsPlaying] From AppHistory WHERE PCName in ('PikaSwitch', 'Switch', 'Pokemon Switch') END";
+            string supportQuery = "IF EXISTS (SELECT * FROM NowPlaying) BEGIN SELECT TOP 1 GameName[Value], '1'[IsPlaying] FROM NowPlaying END ELSE BEGIN SELECT Max(DateStamp)[Value], '0'[IsPlaying] From AppHistory WHERE PCName in ('PikaSwitch', 'Switch', 'Pokemon Switch', 'ACSWITCH', 'OLEDSWITCH') END";
 
             SqlConnection conn = new SqlConnection();
             SqlCommand command = new SqlCommand();
@@ -27,7 +27,7 @@ namespace Devmonster.me.Controllers
             conn.Open();
 
             DataTable dtMainList = new DataTable();
-            DataTable dtSupport = new DataTable(); 
+            DataTable dtSupport = new DataTable();
 
             command.Connection = conn;
             command.CommandType = CommandType.Text;
@@ -62,10 +62,10 @@ namespace Devmonster.me.Controllers
                     if (seconds < 3600)
                     {
                         totalHours = Convert.ToInt32(seconds / 60).ToString() + " minutes or more";
-                    }           
+                    }
                     else
                     {
-                        totalHours = Convert.ToInt32(seconds / 60 / 60).ToString() + " hour" + ((seconds >= 0 && seconds < 3600) ? "" : "s") + " or more";
+                        totalHours = Convert.ToInt32(seconds / 60 / 60).ToString() + " hour" + (Convert.ToInt32(seconds / 60 / 60) == 1 ? "" : "s") + " or more";
                     }
 
 
@@ -94,8 +94,12 @@ namespace Devmonster.me.Controllers
                     model.isPlaying = false;
 
                     DateTime lastPlayed = DateTime.Parse(value);
-                    DateTime now = DateTime.Now.AddHours(8);
+                    DateTime now = DateTime.Now;//.AddHours(8);
                     double sinceMinutes = (now - lastPlayed).TotalMinutes;
+
+                    int minutes = Convert.ToInt32(sinceMinutes);
+                    int hours = Convert.ToInt32((now - lastPlayed).TotalHours);
+                    int days = Convert.ToInt32((now - lastPlayed).TotalDays);
 
                     if (sinceMinutes < 2)
                     {
@@ -103,7 +107,7 @@ namespace Devmonster.me.Controllers
                     }
                     else if (sinceMinutes < 60)
                     {
-                        model.NoteText = $"Last online { Convert.ToInt32(sinceMinutes) } minutes ago";
+                        model.NoteText = $"Last online { minutes } minute" + (minutes == 1 ? "" : "s") +" ago";
                     }
                     else if (sinceMinutes >= 60 && sinceMinutes < 120)
                     {
@@ -111,7 +115,7 @@ namespace Devmonster.me.Controllers
                     }
                     else if (sinceMinutes < 1440)
                     {
-                        model.NoteText = $"Last online {  Convert.ToInt32((now - lastPlayed).TotalHours) } hours ago";
+                        model.NoteText = $"Last online {  Convert.ToInt32((now - lastPlayed).TotalHours) } hour" + (hours == 1 ? "" : "s") + " ago";
                     }
                     else if (sinceMinutes == 1440)
                     {
@@ -119,7 +123,7 @@ namespace Devmonster.me.Controllers
                     }
                     else
                     {
-                        model.NoteText = $"Last online {  Convert.ToInt32((now - lastPlayed).TotalDays) } days ago";
+                        model.NoteText = $"Last online {  Convert.ToInt32((now - lastPlayed).TotalDays) } day" + (days == 1 ? "" : "s") + " ago";
                     }
 
                 }
