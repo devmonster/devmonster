@@ -224,7 +224,7 @@
                     {
                         <div class="row itemRow">
                             <div class="col-xs-2 col-md-1 text-right rank">
-                                <img height="50" width="50" src="https://dltouchpoint.blob.core.windows.net/downloads/Img/Tabs/@{@item.GameName}.png" />
+                                <img height="50" width="50" src="https://dltouchpoint.blob.core.windows.net/downloads/Img/Tabs/@{@Uri.EscapeDataString(item.GameName);}.png" />
                             </div>
                             <div class="col-xs-10 col-md-11">
                                 <span class="FriendlyName">@item.GameName</span>
